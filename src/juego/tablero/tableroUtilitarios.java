@@ -12,8 +12,14 @@ public class tableroUtilitarios
     public static boolean[] SEVENTH_COLUMNA = initColumn(6);
     public static boolean[] EIGHTH_COLUMNA = initColumn(7);
     
+    public static final boolean[] FIRST_ROW = inicializarFila(0);
     public static final boolean[] SECOND_ROW = inicializarFila(8);
+    public static final boolean[] THIRD_ROW = inicializarFila(16);
+    public static final boolean[] FOURTH_ROW = inicializarFila(24);
+    public static final boolean[] FIFTH_ROW = inicializarFila(32);
+    public static final boolean[] SIXTH_ROW = inicializarFila(40);
     public static final boolean[] SEVENTH_ROW = inicializarFila(48);
+    public static final boolean[] EIGHTH_ROW = inicializarFila(56);
     
     public static final int NUM_CASILLAS = 64;
     public static final int NUM_CASILLAS_POR_FILA = 8;
