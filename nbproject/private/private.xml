@@ -3,22 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/pieza/Peon.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/pieza/Pieza.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/jugador/JugadorNegras.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/pieza/Rey.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/pieza/Alfil.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/tablero/Casilla.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/tablero/Tablero.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/jugador/MovimientoDeTransicion.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/jugador/JugadorBlancas.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/tablero/Movimiento.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/JChess.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/jugador/Jugador.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/pieza/Caballo.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/pieza/Reina.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/gui/Table.java</file>
-            <file>file:/D:/Users/Yelson/Desktop/Chess-master/src/juego/pieza/Torre.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/2020/IA/Ajedrez/Ajedrez/src/gui/Table.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/2020/IA/Ajedrez/Ajedrez/src/juego/jugador/JugadorBlancas.java</file>
         </group>
     </open-files>
 </project-private>

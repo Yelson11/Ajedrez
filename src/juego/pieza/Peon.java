@@ -41,16 +41,16 @@ public class Peon extends Pieza {
             if (candidatoActual == 8 && tablero.getCasilla(candidateDestinationCoordinate).casillaEstaOcupada()) {
                 movimientosLegales.add(new MovimientoMayor(tablero, this, candidateDestinationCoordinate));
             } else if (candidatoActual == 16 && this.isFirstMove()
-                    && (tableroUtilitarios.SECOND_ROW[this.posicionPieza]) && this.getPiezaColor().esNegra()
-                    || (tableroUtilitarios.SEVENTH_ROW[this.posicionPieza]) && this.getPiezaColor().esBlanca()) {
+                    && (tableroUtilitarios.SEVENTH_RANK[this.posicionPieza]) && this.getPiezaColor().esNegra()
+                    || (tableroUtilitarios.SECOND_RANK[this.posicionPieza]) && this.getPiezaColor().esBlanca()) {
                 final int behindCandidateDestination = this.posicionPieza + (this.piezaColor.getDireccion() * 8);
                 if (!tablero.getCasilla(behindCandidateDestination).casillaEstaOcupada()
                         && !tablero.getCasilla(candidateDestinationCoordinate).casillaEstaOcupada()) {
                     movimientosLegales.add(new MovimientoMayor(tablero, this, candidateDestinationCoordinate));
                 }
-            } else if (candidatoActual == 7 && !(tableroUtilitarios.EIGHTH_COLUMNA[this.posicionPieza]
+            } else if (candidatoActual == 7 && !(tableroUtilitarios.EIGHT_COLUMN[this.posicionPieza]
                     && this.piezaColor.esBlanca()
-                    || tableroUtilitarios.PRIMERA_COLUMNA[this.posicionPieza] && this.piezaColor.esNegra())) {
+                    || tableroUtilitarios.FIRST_COLUMN[this.posicionPieza] && this.piezaColor.esNegra())) {
                 if (tablero.getCasilla(candidateDestinationCoordinate).casillaEstaOcupada()) {
                     final Pieza piezaCandidata = tablero.getCasilla(candidateDestinationCoordinate).getPieza();
                     if (this.piezaColor != piezaCandidata.getPiezaColor()) {
@@ -59,8 +59,8 @@ public class Peon extends Pieza {
                 }
 
             } else if (candidatoActual == 9
-                    && !(tableroUtilitarios.PRIMERA_COLUMNA[this.posicionPieza] && this.piezaColor.esBlanca()
-                            || tableroUtilitarios.EIGHTH_COLUMNA[this.posicionPieza] && this.piezaColor.esNegra())) {
+                    && !(tableroUtilitarios.FIRST_COLUMN[this.posicionPieza] && this.piezaColor.esBlanca()
+                            || tableroUtilitarios.EIGHT_COLUMN[this.posicionPieza] && this.piezaColor.esNegra())) {
                 if (tablero.getCasilla(candidateDestinationCoordinate).casillaEstaOcupada()) {
                     final Pieza piezaCandidata = tablero.getCasilla(candidateDestinationCoordinate).getPieza();
                     if (this.piezaColor != piezaCandidata.getPiezaColor()) {

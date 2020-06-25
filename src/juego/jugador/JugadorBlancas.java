@@ -56,8 +56,7 @@ public class JugadorBlancas extends Jugador {
                     if(Jugador.calcularMovimientosDeAtaqueEnCasilla(61, oponentesLegales).isEmpty() &&
                        Jugador.calcularMovimientosDeAtaqueEnCasilla(62, oponentesLegales).isEmpty() &&
                        torreCasilla.getPieza().getTipoPieza().isTorre()){
-                        //TODO ADD A CASTLE
-                    reyCastles.add(null);
+                        reyCastles.add(new Movimiento.MovimientoCastilloLadoRey(this.tablero, this.reyJugador, 62, (Torre)torreCasilla.getPieza(), torreCasilla.getCoordenadaCasilla(),61));
                     }
                 }
             }
@@ -66,9 +65,11 @@ public class JugadorBlancas extends Jugador {
                !this.tablero.getCasilla(57).casillaEstaOcupada()){
                 
                 final Casilla torreCasilla = this.tablero.getCasilla(56);
-                if(torreCasilla.casillaEstaOcupada() && torreCasilla.getPieza().isFirstMove()){
-                    //TODO ADD A CASTLE
-                    reyCastles.add(null);
+                if(torreCasilla.casillaEstaOcupada() && torreCasilla.getPieza().isFirstMove() &&
+                    Jugador.calcularMovimientosDeAtaqueEnCasilla(58, oponentesLegales).isEmpty() && 
+                    Jugador.calcularMovimientosDeAtaqueEnCasilla(59, oponentesLegales).isEmpty()  &&
+                    torreCasilla.getPieza().getTipoPieza().isTorre()){
+                    reyCastles.add(new Movimiento.MovimientoCastilloLadoReina(this.tablero, this.reyJugador, 58, (Torre)torreCasilla.getPieza(), torreCasilla.getCoordenadaCasilla(), 59));
                 }
             }
         }

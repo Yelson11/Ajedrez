@@ -68,20 +68,20 @@ public class Caballo extends Pieza {
     }
 
     private static boolean isFirstColumnExclusion(final int posicionActual, final int candidateOffSet) {
-        return tableroUtilitarios.PRIMERA_COLUMNA[posicionActual] && (candidateOffSet == -17)
+        return tableroUtilitarios.FIRST_COLUMN[posicionActual] && (candidateOffSet == -17)
                 || (candidateOffSet == -10) || (candidateOffSet == 6) || (candidateOffSet == -15);
     }
 
     private static boolean isSecondColumnExclusion(final int posicionActual, final int candidateOffSet) {
-        return tableroUtilitarios.SEGUNDA_COLUMNA[posicionActual] && (candidateOffSet == -10) || (candidateOffSet == 6);
+        return tableroUtilitarios.SECOND_COLUMN[posicionActual] && (candidateOffSet == -10) || (candidateOffSet == 6);
     }
 
     private static boolean isSeventhColumnExclusion(final int posicionActual, final int candidateOffSet) {
-        return tableroUtilitarios.SEVENTH_COLUMNA[posicionActual] && (candidateOffSet == -6) || (candidateOffSet == 10);
+        return tableroUtilitarios.SEVENTH_COLUMN[posicionActual] && (candidateOffSet == -6) || (candidateOffSet == 10);
     }
 
     private static boolean isEighthColumnExclusion(final int posicionActual, final int candidateOffSet) {
-        return tableroUtilitarios.EIGHTH_COLUMNA[posicionActual] && (candidateOffSet == -15) || (candidateOffSet == -6)
+        return tableroUtilitarios.EIGHT_COLUMN[posicionActual] && (candidateOffSet == -15) || (candidateOffSet == -6)
                 || (candidateOffSet == 10) || (candidateOffSet == 17);
     }
     

@@ -70,11 +70,11 @@ public class Torre extends Pieza {
     }
 
     private static boolean isFirstColumnExclusion(final int posicionActual, final int candidateOffSet) {
-        return tableroUtilitarios.PRIMERA_COLUMNA[posicionActual] && (candidateOffSet == -1);
+        return tableroUtilitarios.FIRST_COLUMN[posicionActual] && (candidateOffSet == -1);
     }
 
     private static boolean isEighthColumnExclusion(final int posicionActual, final int candidateOffSet) {
-        return tableroUtilitarios.EIGHTH_COLUMNA[posicionActual] && (candidateOffSet == 1);
+        return tableroUtilitarios.EIGHT_COLUMN[posicionActual] && (candidateOffSet == 1);
     }
 
     public Torre moverPieza(final Movimiento movimiento) {

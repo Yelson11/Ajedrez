@@ -13,6 +13,7 @@ import java.util.List;
 import juego.pieza.ColorPieza;
 import juego.pieza.Pieza;
 import juego.pieza.Torre;
+import juego.pieza.Pieza.TipoPieza;
 import juego.tablero.Casilla;
 import juego.tablero.Movimiento;
 import juego.tablero.Tablero;
@@ -48,12 +49,12 @@ public class JugadorNegras extends Jugador {
         final List<Movimiento> reyCastles = new ArrayList<>();
         if(this.reyJugador.isFirstMove() && !this.estaEnJacque()){
             if(!this.tablero.getCasilla(5).casillaEstaOcupada() && !this.tablero.getCasilla(6).casillaEstaOcupada()){
-                final Casilla casilla = this.tablero.getCasilla(7);
-                if(casilla.casillaEstaOcupada() && casilla.getPieza().isFirstMove()){
+                final Casilla torreCasilla = this.tablero.getCasilla(7);
+                if(torreCasilla.casillaEstaOcupada() && torreCasilla.getPieza().isFirstMove()){
                     if(Jugador.calcularMovimientosDeAtaqueEnCasilla(5, oponentesLegales).isEmpty() &&
                        Jugador.calcularMovimientosDeAtaqueEnCasilla(6, oponentesLegales).isEmpty() &&
-                       casilla.getPieza().getTipoPieza().isTorre()){
-                       reyCastles.add(new Movimiento.MovimientoCastilloLadoRey(this.tablero, this.reyJugador, 6, (Torre)casilla.getPieza(), casilla.getCoordenadaCasilla(), 5));
+                       torreCasilla.getPieza().getTipoPieza().isTorre()){
+                       reyCastles.add(new Movimiento.MovimientoCastilloLadoRey(this.tablero, this.reyJugador, 6, (Torre)torreCasilla.getPieza(), torreCasilla.getCoordenadaCasilla(), 5));
                     }
                 }
             }
@@ -61,9 +62,12 @@ public class JugadorNegras extends Jugador {
                 !this.tablero.getCasilla(2).casillaEstaOcupada() &&
                 !this.tablero.getCasilla(3).casillaEstaOcupada()){
                 
-                final Casilla casilla = this.tablero.getCasilla(0);
-                if(casilla.casillaEstaOcupada() && casilla.getPieza().isFirstMove()){
-                    reyCastles.add(new Movimiento.MovimientoCastilloLadoReina(this.tablero, this.reyJugador, 2, (Torre)casilla.getPieza(), casilla.getCoordenadaCasilla(), 3));
+                final Casilla torreCasilla = this.tablero.getCasilla(0);
+                if(torreCasilla.casillaEstaOcupada() && torreCasilla.getPieza().isFirstMove() && 
+                   Jugador.calcularMovimientosDeAtaqueEnCasilla(2, oponentesLegales).isEmpty() && 
+                   Jugador.calcularMovimientosDeAtaqueEnCasilla(3, oponentesLegales).isEmpty()  &&
+                   torreCasilla.getPieza().getTipoPieza().isTorre()){
+                    reyCastles.add(new Movimiento.MovimientoCastilloLadoReina(this.tablero, this.reyJugador, 2, (Torre)torreCasilla.getPieza(), torreCasilla.getCoordenadaCasilla(), 3));
                 }
             }
         }

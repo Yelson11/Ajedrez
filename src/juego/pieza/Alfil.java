@@ -72,11 +72,11 @@ public class Alfil extends Pieza {
     }
 
     private static boolean isFirstColumnExclusion(final int posicionActual, final int candidateOffSet) {
-        return tableroUtilitarios.PRIMERA_COLUMNA[posicionActual] && (candidateOffSet == -9) || (candidateOffSet == 7);
+        return tableroUtilitarios.FIRST_COLUMN[posicionActual] && (candidateOffSet == -9) || (candidateOffSet == 7);
     }
 
     private static boolean isEighthColumnExclusion(final int posicionActual, final int candidateOffSet) {
-        return tableroUtilitarios.EIGHTH_COLUMNA[posicionActual] && (candidateOffSet == -7) || (candidateOffSet == 9);
+        return tableroUtilitarios.EIGHT_COLUMN[posicionActual] && (candidateOffSet == -7) || (candidateOffSet == 9);
     }
 
     @Override

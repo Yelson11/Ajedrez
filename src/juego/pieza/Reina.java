@@ -70,12 +70,12 @@ public class Reina extends Pieza {
     }
 
     private static boolean isFirstColumnExclusion(final int posicionActual, final int candidateOffSet) {
-        return tableroUtilitarios.PRIMERA_COLUMNA[posicionActual] && (candidateOffSet == -1) || (candidateOffSet == -9)
+        return tableroUtilitarios.FIRST_COLUMN[posicionActual] && (candidateOffSet == -1) || (candidateOffSet == -9)
                 || (candidateOffSet == 7);
     }
 
     private static boolean isEighthColumnExclusion(final int posicionActual, final int candidateOffSet) {
-        return tableroUtilitarios.EIGHTH_COLUMNA[posicionActual] && (candidateOffSet == -7) || (candidateOffSet == 1)
+        return tableroUtilitarios.EIGHT_COLUMN[posicionActual] && (candidateOffSet == -7) || (candidateOffSet == 1)
                 || (candidateOffSet == 9);
     }
     

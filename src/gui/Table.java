@@ -7,13 +7,23 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+
+import juego.tablero.Tablero;
 import juego.tablero.tableroUtilitarios;
 
 public class Table {
@@ -31,6 +41,7 @@ public class Table {
         this.gameFrame = new JFrame("Chess");
         this.gameFrame.setLayout(new BorderLayout());
         final JMenuBar tableMenuBar = createTableMenuBar();
+        this.gameFrame.setJMenuBar(tableMenuBar);
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
 
         this.boardPanel = new BoardPanel();
@@ -56,6 +67,17 @@ public class Table {
 
         });
         fileMenu.add(openPGN);
+
+        final JMenuItem exitMenuItem = new JMenuItem("Exit");
+        exitMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+
+                System.exit(0);
+            }
+        });
+        fileMenu.add(exitMenuItem);
+
         return fileMenu;
     }
 
@@ -88,17 +110,31 @@ public class Table {
             validate();
         }
 
+        private void  assignTilePieceIcon (final Tablero tablero){
+            this.removeAll();
+            if (tablero.getCasilla(this.tileId).casillaEstaOcupada()){
+                String pieceIconPath = "";
+                try {
+                    final BufferedImage image = ImageIO.read(new File(pieceIconPath + tablero.getCasilla(this.tileId).getPieza().getPiezaColor().toString().substring(0, 1) +
+                    tablero.getCasilla(this.tileId).getPieza().toString()+".PNG"));
+                    add(new JLabel (new ImageIcon(image)));
+                } catch (IOException ex) {
+                    Logger.getLogger(Table.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
         private void assignTileColor() {
 
-            if (tableroUtilitarios.FIRST_ROW[this.tileId] || 
-                tableroUtilitarios.THIRD_ROW[this.tileId] || 
-                tableroUtilitarios.FIFTH_ROW[this.tileId] || 
-                tableroUtilitarios.SEVENTH_ROW[this.tileId]) {
+            if (tableroUtilitarios.EIGHT_RANK[this.tileId] || 
+                tableroUtilitarios.SIXTH_RANK[this.tileId] || 
+                tableroUtilitarios.FOURTH_RANK[this.tileId] || 
+                tableroUtilitarios.SECOND_RANK[this.tileId]) {
                 setBackground(this.tileId % 2 == 0 ? lightTileColor : darkTileColor);
-            } else if ( tableroUtilitarios.SECOND_ROW[this.tileId] || 
-                        tableroUtilitarios.FOURTH_ROW[this.tileId] || 
-                        tableroUtilitarios.SIXTH_ROW[this.tileId] || 
-                        tableroUtilitarios.EIGHTH_ROW[this.tileId]) {
+            } else if ( tableroUtilitarios.SEVENTH_RANK[this.tileId] || 
+                        tableroUtilitarios.FIFTH_RANK[this.tileId] || 
+                        tableroUtilitarios.THIRD_RANK[this.tileId] || 
+                        tableroUtilitarios.FIRST_RANK[this.tileId]) {
                 setBackground(this.tileId % 2 != 0 ? lightTileColor : darkTileColor);
             }
 

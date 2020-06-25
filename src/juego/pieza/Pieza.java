@@ -71,7 +71,7 @@ public abstract class Pieza {
     public abstract Pieza moverPieza(Movimiento movimiento);
 
     public enum TipoPieza {
-        ALFIL("♗", "♝"){
+        ALFIL("B"){ //BISOHP
             @Override
             public boolean isRey() {
                 return false;
@@ -83,7 +83,7 @@ public abstract class Pieza {
             }
             
         }, 
-        REY("♔", "♚"){
+        REY("K"){ //KING
             @Override
             public boolean isRey() {
                 return true;
@@ -94,7 +94,7 @@ public abstract class Pieza {
                 return false;
             }
         }, 
-        CABALLO("♘", "♞"){
+        CABALLO("N"){  //kNight
             @Override
             public boolean isRey() {
                 return false;
@@ -105,7 +105,7 @@ public abstract class Pieza {
                 return false;
             }
         }, 
-        REINA("♕", "♛"){
+        REINA("Q"){ //QUEEN
             @Override
             public boolean isRey() {
                 return false;
@@ -116,7 +116,7 @@ public abstract class Pieza {
                 return false;
             }
         }, 
-        TORRE("♖", "♖"){
+        TORRE("R"){ //ROOK
             @Override
             public boolean isRey() {
                 return false;
@@ -127,7 +127,7 @@ public abstract class Pieza {
                 return true;
             }
         }, 
-        PEON("♙", "☗"){
+        PEON("P"){ //PAWN
             @Override
             public boolean isRey() {
                 return false;
@@ -139,16 +139,14 @@ public abstract class Pieza {
             }
         };
 
-        private String piezaBlanca;
-        private String piezaNegra;
+        private String nombrePieza;
 
         public String toString(ColorPieza color) {
-            return color == ColorPieza.BLANCO ? piezaBlanca : piezaNegra;
+            return this.nombrePieza;
         }
 
-        TipoPieza(final String piezaBlanca, final String piezaNegra) {
-            this.piezaBlanca = piezaBlanca;
-            this.piezaNegra = piezaNegra;
+        TipoPieza(final String nombrePieza) {
+            this.nombrePieza = nombrePieza;
         }
         
         public abstract boolean isRey();
