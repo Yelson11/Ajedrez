@@ -24,9 +24,9 @@ import juego.tablero.Board;
  */
 public class BlacksPlayer extends Player {
 
-    public BlacksPlayer(final Board board, final Collection<Move> movimientosPermitidosBlancas,
-            final Collection<Move> movimientosPermitidosNegras) {
-        super(board, movimientosPermitidosNegras, movimientosPermitidosBlancas);
+    public BlacksPlayer(final Board board, final Collection<Move> whiteStandardLegals,
+            final Collection<Move> blackStandardLegals) {
+        super(board, blackStandardLegals, whiteStandardLegals);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class BlacksPlayer extends Player {
     }
 
     @Override
-    public PieceColor getPieceColor() {
+    public PieceColor getPiecesColor() {
         return PieceColor.BLACK;
     }
 
@@ -45,14 +45,14 @@ public class BlacksPlayer extends Player {
     }
 
     //@Override
-    protected Collection<Move> calcularReyCastles(final Collection<Move> jugadorLegales, final Collection<Move> oponentesLegales) {
+    protected Collection<Move> calculateKingCastles(final Collection<Move> playerLegals, final Collection<Move> opponentLegals) {
         final List<Move> reyCastles = new ArrayList<>();
         if(this.playerKing.isFirstMove() && !this.isInCheck()){
             if(!this.board.getTile(5).tileIsOccupied() && !this.board.getTile(6).tileIsOccupied()){
                 final Tile torreCasilla = this.board.getTile(7);
                 if(torreCasilla.tileIsOccupied() && torreCasilla.getPiece().isFirstMove()){
-                    if(Player.calculateAttackMovesInTile(5, oponentesLegales).isEmpty() &&
-                       Player.calculateAttackMovesInTile(6, oponentesLegales).isEmpty() &&
+                    if(Player.calculateAttackMovesInTile(5, opponentLegals).isEmpty() &&
+                       Player.calculateAttackMovesInTile(6, opponentLegals).isEmpty() &&
                        torreCasilla.getPiece().getPieceType().isRook()){
                        reyCastles.add(new Move.MovimientoCastilloLadoRey(this.board, this.playerKing, 6, (Rook)torreCasilla.getPiece(), torreCasilla.getTileCoordinate(), 5));
                     }
@@ -64,8 +64,8 @@ public class BlacksPlayer extends Player {
                 
                 final Tile torreCasilla = this.board.getTile(0);
                 if(torreCasilla.tileIsOccupied() && torreCasilla.getPiece().isFirstMove() && 
-                   Player.calculateAttackMovesInTile(2, oponentesLegales).isEmpty() && 
-                   Player.calculateAttackMovesInTile(3, oponentesLegales).isEmpty()  &&
+                   Player.calculateAttackMovesInTile(2, opponentLegals).isEmpty() && 
+                   Player.calculateAttackMovesInTile(3, opponentLegals).isEmpty()  &&
                    torreCasilla.getPiece().getPieceType().isRook()){
                     reyCastles.add(new Move.MovimientoCastilloLadoReina(this.board, this.playerKing, 2, (Rook)torreCasilla.getPiece(), torreCasilla.getTileCoordinate(), 3));
                 }

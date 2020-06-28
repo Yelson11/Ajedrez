@@ -33,7 +33,7 @@ public class WhitesPlayer extends Player {
     }
 
     @Override
-    public PieceColor getPieceColor() {
+    public PieceColor getPiecesColor() {
         return PieceColor.WHITE;
     }
 
@@ -43,7 +43,7 @@ public class WhitesPlayer extends Player {
     }
 
     //@Override
-    protected Collection<Move> calcularReyCastles(final Collection<Move> jugadorLegales, final Collection<Move> oponentesLegales){
+    protected Collection<Move> calculateKingCastles(final Collection<Move> jugadorLegales, final Collection<Move> oponentesLegales){
         
         final List<Move> reyCastles = new ArrayList();
         

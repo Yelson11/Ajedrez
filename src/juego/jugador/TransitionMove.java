@@ -7,10 +7,10 @@ public class TransitionMove {
 
     private final Board tableroDeTransacion;
     private final Move movimiento;
-    private final MoveStatus statusMovimiento;
+    private final Move.MoveStatus statusMovimiento;
 
     public TransitionMove(final Board tableroDeTransacion, final Move movimiento,
-            final MoveStatus statusMovimiento) {
+            final Move.MoveStatus statusMovimiento) {
 
         this.tableroDeTransacion = tableroDeTransacion;
         this.movimiento = movimiento;
@@ -18,7 +18,7 @@ public class TransitionMove {
 
     }
 
-    public MoveStatus getMoveStatus() {
+    public Move.MoveStatus getMoveStatus() {
         return this.statusMovimiento;
     }
     

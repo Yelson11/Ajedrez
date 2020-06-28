@@ -5,7 +5,6 @@ import juego.pieza.Pawn;
 import juego.pieza.Piece;
 import juego.pieza.Rook;
 import juego.tablero.Board.BoardBuilder;
-import sun.security.provider.certpath.BuildStep;
 
 /**
  *
@@ -88,7 +87,7 @@ public abstract class Move
 
         //mueve la pieza movida
         boardBuilder.setPiece(this.movedPiece.movePiece(this));
-        boardBuilder.setMoveMaker(this.board.currentPlayer().getOponent().getPieceColor());
+        boardBuilder.setMoveMaker(this.board.currentPlayer().getOponent().getPiecesColor());
         return boardBuilder.buildBoard();
     }
     
@@ -182,7 +181,7 @@ public abstract class Move
             final Pawn peonMovido = (Pawn)this.movedPiece.movePiece(this);
             builder.setPiece(peonMovido);
             builder.setPeonPasajero(peonMovido);
-            builder.setMoveMaker(this.board.currentPlayer().getOponent().getPieceColor());
+            builder.setMoveMaker(this.board.currentPlayer().getOponent().getPiecesColor());
             return builder.buildBoard();
             
         }
@@ -221,7 +220,7 @@ public abstract class Move
             }
             builder.setPiece(this.movedPiece.movePiece(this));
             builder.setPiece(new Rook(this.castle.getPieceColor(), this.destinationCoordinate, false));
-            builder.setMoveMaker(this.board.currentPlayer().getOponent().getPieceColor());
+            builder.setMoveMaker(this.board.currentPlayer().getOponent().getPiecesColor());
             return builder.buildBoard();
         }
     }
@@ -273,4 +272,34 @@ public abstract class Move
         }
     }
     
+    public enum MoveStatus {
+    
+        DONE {
+            @Override
+            boolean isDone() {
+                return true;
+            }
+        },
+        ILLEGAL {
+
+            @Override
+            boolean isDone() {
+                return false;
+            }
+
+        },
+        LEAVES_PLAYER_IN_CHECK {
+            @Override
+            boolean isDone() {
+                return false;
+            }
+        };
+
+        abstract boolean isDone();
+    }
+    
 }
+
+
+
+

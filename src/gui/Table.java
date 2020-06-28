@@ -14,6 +14,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +29,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import juego.jugador.TransitionMove;
-import juego.jugador.MoveStatus;
 import juego.pieza.Piece;
 import juego.tablero.Tile;
 import juego.tablero.Move;
@@ -48,11 +49,12 @@ public class Table {
     private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
     private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
     private final static Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
-    private static final String defaultPieceImagesPath = "/art/";
+    private static final String defaultPieceImagesPath = "/art/pieces/";
+    private static final String defaultArtImagePath = "/art/";
     
     private Tile casillaFuente;
     private Tile casillaDestino;
-    private Piece piezaMovidaPorHumano;
+    private Piece humanMovedPiece;
     
     private BoardDirection boardDirection;
     
@@ -73,6 +75,7 @@ public class Table {
     private JMenuBar createTableMenuBar() {
         final JMenuBar tableMenuBar = new JMenuBar();
         tableMenuBar.add(createFileMenu());
+        tableMenuBar.add(createPreferencesMenu());
         return tableMenuBar;
     }
 
@@ -165,15 +168,15 @@ public class Table {
                         
                         casillaFuente = null;
                         casillaDestino = null;
-                        piezaMovidaPorHumano = null;
+                        humanMovedPiece = null;
                     }
                     else if (SwingUtilities.isLeftMouseButton(e)){
                     
                         //Usuario no ha clickeado pieza
                         if (casillaFuente == null ){
                              casillaFuente = board.getTile(tileId);
-                             piezaMovidaPorHumano = casillaFuente.getPiece();
-                             if (piezaMovidaPorHumano == null){
+                             humanMovedPiece = casillaFuente.getPiece();
+                             if (humanMovedPiece == null){
                                  casillaFuente = null;
                              }
                         } else {
@@ -181,12 +184,12 @@ public class Table {
                             casillaDestino = board.getTile(tileId);
                             final Move movimiento = Move.FabricaMovimientos.crearMovimiento(board, casillaFuente.getTileCoordinate(), casillaDestino.getTileCoordinate());
                             final TransitionMove transicion = board.currentPlayer().makeMove(movimiento);
-                            if (transicion.getMoveStatus() == MoveStatus.DONE){
+                            if (transicion.getMoveStatus() == Move.MoveStatus.DONE){
                                 board = transicion.getTablero();
                             }
                             casillaDestino = null;
                             casillaFuente = null;
-                            piezaMovidaPorHumano = null;
+                            humanMovedPiece = null;
                        }
                         
                         SwingUtilities.invokeLater(new Runnable() {
@@ -226,6 +229,7 @@ public class Table {
         public void drawTile (final Board tablero){
             assignTileColor();
             assignTilePieceIcon(tablero);
+            highLightLegals(board);
             validate();
             repaint();
         }
@@ -243,6 +247,25 @@ public class Table {
                     Logger.getLogger(Table.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        }
+        
+        private void highLightLegals (final Board board){
+            for (final Move move : pieceLegalMoves(board)){
+                if (move.getDestinationCoordinate() == this.tileId){
+                    try {
+                        add (new JLabel (new ImageIcon(ImageIO.read(new File(getClass().getResource(defaultArtImagePath+"other/legals.png").getPath())))));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        
+        private Collection<Move> pieceLegalMoves (final Board board){
+            if (humanMovedPiece != null && humanMovedPiece.getPieceColor() == board.currentPlayer().getPiecesColor()){
+                return humanMovedPiece.calculateLegalMovements(board);
+            }
+            return Collections.emptyList();
         }
 
         private void assignTileColor() {

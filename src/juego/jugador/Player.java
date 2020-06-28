@@ -26,7 +26,7 @@ public abstract class Player {
 
         this.board = board;
         this.playerKing = establishKing();
-        this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, calcularReyCastles(legalMoves, oponentMoves)));
+        this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, calculateKingCastles(legalMoves, oponentMoves)));
         this.isInCheck = !Player.calculateAttackMovesInTile(this.playerKing.getPiecePosition(), oponentMoves).isEmpty();
     }
 
@@ -80,7 +80,7 @@ public abstract class Player {
     private boolean hasEscapeMovements() {
         for (final Move move : this.legalMoves) {
             final TransitionMove transition = makeMove((move));
-            if (transition.getMoveStatus().isDone()) {
+            if (transition.getMoveStatus() == Move.MoveStatus.DONE) {
                 return true;
             }
         }
@@ -95,7 +95,7 @@ public abstract class Player {
     public TransitionMove makeMove(final Move move) {
 
         if (!isMoveLegal((move))){
-            return new TransitionMove(this.board, move, MoveStatus.ILLEGAL);
+            return new TransitionMove(this.board, move, Move.MoveStatus.ILLEGAL);
         }
 
         final Board transitionBoard = move.execute();
@@ -104,15 +104,15 @@ public abstract class Player {
              transitionBoard.currentPlayer().getLegalMovements());
 
         if ( !attacksToKing.isEmpty()  ){
-            return new TransitionMove(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
+            return new TransitionMove(this.board, move, Move.MoveStatus.LEAVES_PLAYER_IN_CHECK);
         }
 
-        return new TransitionMove(transitionBoard, move, MoveStatus.DONE);
+        return new TransitionMove(transitionBoard, move, Move.MoveStatus.DONE);
     }
 
     public abstract Collection<Piece> getActivePieces();
-    public abstract PieceColor getPieceColor();
+    public abstract PieceColor getPiecesColor();
     public abstract Player getOponent();
-    protected abstract Collection<Move> calcularReyCastles(Collection<Move> jugadorLegales, Collection<Move> oponentesLegales);
+    protected abstract Collection<Move> calculateKingCastles(Collection<Move> jugadorLegales, Collection<Move> oponentesLegales);
 
 }
