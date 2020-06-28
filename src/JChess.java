@@ -1,5 +1,5 @@
 import gui.Table;
-import juego.tablero.Tablero;
+import juego.tablero.Board;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,7 +15,7 @@ public class JChess {
 
     public static void main (String[] args){
         
-        Tablero tablero = Tablero.crearTableroEstandar();
+        Board tablero = Board.createStandardBoard();
         System.out.println(tablero);
         
         Table table = new Table();

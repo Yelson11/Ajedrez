@@ -1,27 +1,27 @@
 package juego.jugador;
 
-public enum StatusMovimiento {
+public enum MoveStatus {
     
-    LISTO {
+    DONE {
         @Override
-        boolean estaListo() {
+        boolean isDone() {
             return true;
         }
     },
-    ILEGAL {
+    ILLEGAL {
 
         @Override
-        boolean estaListo() {
+        boolean isDone() {
             return false;
         }
 
     },
-    DEJA_JUGADOR_EN_JAQUE {
+    LEAVES_PLAYER_IN_CHECK {
         @Override
-        boolean estaListo() {
+        boolean isDone() {
             return false;
         }
     };
 
-    abstract boolean estaListo();
+    abstract boolean isDone();
 }
