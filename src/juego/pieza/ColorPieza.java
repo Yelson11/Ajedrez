@@ -10,7 +10,7 @@ import juego.jugador.JugadorNegras;
  */
 public enum ColorPieza {
 
-    BLANCO {
+    WHITE {
         @Override
         public int getDireccion() {
             return -1;
@@ -31,7 +31,7 @@ public enum ColorPieza {
             return jugadorBlancas;
         }
     },
-    NEGRO {
+    BLACK {
         @Override
         public int getDireccion() {
             return 1;

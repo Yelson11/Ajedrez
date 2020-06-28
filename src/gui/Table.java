@@ -30,12 +30,16 @@ public class Table {
 
     private final JFrame gameFrame;
     private final BoardPanel boardPanel;
-    private Color lightTileColor = Color.decode("#FFFACD");
-    private Color darkTileColor = Color.decode("#593E1A");
+    private final Tablero tablerio;
+        
+    
+    private final Color lightTileColor = Color.decode("#FFFACD");
+    private final Color darkTileColor = Color.decode("#593E1A");
 
     private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
     private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
     private final static Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
+    private static final String defaultPieceImagesPath = "/art/";
 
     public Table() {
         this.gameFrame = new JFrame("Chess");
@@ -43,7 +47,7 @@ public class Table {
         final JMenuBar tableMenuBar = createTableMenuBar();
         this.gameFrame.setJMenuBar(tableMenuBar);
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
-
+        this.tablerio = Tablero.crearTableroEstandar();
         this.boardPanel = new BoardPanel();
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
 
@@ -107,16 +111,18 @@ public class Table {
             this.tileId = tileId;
             setPreferredSize(TILE_PANEL_DIMENSION);
             assignTileColor();
+            assignTilePieceIcon(tablerio);
             validate();
         }
 
         private void  assignTilePieceIcon (final Tablero tablero){
             this.removeAll();
             if (tablero.getCasilla(this.tileId).casillaEstaOcupada()){
-                String pieceIconPath = "";
                 try {
-                    final BufferedImage image = ImageIO.read(new File(pieceIconPath + tablero.getCasilla(this.tileId).getPieza().getPiezaColor().toString().substring(0, 1) +
-                    tablero.getCasilla(this.tileId).getPieza().toString()+".PNG"));
+                    final String imagePath = getClass().getResource(defaultPieceImagesPath+tablero.getCasilla(this.tileId).getPieza().getPiezaColor().toString().substring(0, 1) + 
+                                tablero.getCasilla(this.tileId).getPieza().toString()+".PNG").getPath();
+                    System.out.println(imagePath);
+                    final BufferedImage image = ImageIO.read(new File(imagePath));
                     add(new JLabel (new ImageIcon(image)));
                 } catch (IOException ex) {
                     Logger.getLogger(Table.class.getName()).log(Level.SEVERE, null, ex);

@@ -37,8 +37,8 @@ public class Tablero {
     private Tablero(ConstructorTablero builder) {
 
         this.tableroJuego = crearTableroJuego(builder);
-        this.piezasBlancas = calcularPiezasActivas(this.tableroJuego, ColorPieza.BLANCO);
-        this.piezasNegras = calcularPiezasActivas(this.tableroJuego, ColorPieza.NEGRO);
+        this.piezasBlancas = calcularPiezasActivas(this.tableroJuego, ColorPieza.WHITE);
+        this.piezasNegras = calcularPiezasActivas(this.tableroJuego, ColorPieza.BLACK);
 
         final Collection<Movimiento> movimientosPermitidosBlancas = calcularMovimientosPermitidos(this.piezasBlancas);
         final Collection<Movimiento> movimientosPermitidosNegras = calcularMovimientosPermitidos(this.piezasNegras);
@@ -123,41 +123,41 @@ public class Tablero {
     public static Tablero crearTableroEstandar() {
         final ConstructorTablero builder = new ConstructorTablero();
         // Black Layout
-        builder.setPieza(new Torre(ColorPieza.NEGRO, 0));
-        builder.setPieza(new Caballo(ColorPieza.NEGRO, 1));
-        builder.setPieza(new Alfil(ColorPieza.NEGRO, 2));
-        builder.setPieza(new Reina(ColorPieza.NEGRO, 3));
-        builder.setPieza(new Rey(ColorPieza.NEGRO, 4));
-        builder.setPieza(new Alfil(ColorPieza.NEGRO, 5));
-        builder.setPieza(new Caballo(ColorPieza.NEGRO, 6));
-        builder.setPieza(new Torre(ColorPieza.NEGRO, 7));
-        builder.setPieza(new Peon(ColorPieza.NEGRO, 8));
-        builder.setPieza(new Peon(ColorPieza.NEGRO, 9));
-        builder.setPieza(new Peon(ColorPieza.NEGRO, 10));
-        builder.setPieza(new Peon(ColorPieza.NEGRO, 11));
-        builder.setPieza(new Peon(ColorPieza.NEGRO, 12));
-        builder.setPieza(new Peon(ColorPieza.NEGRO, 13));
-        builder.setPieza(new Peon(ColorPieza.NEGRO, 14));
-        builder.setPieza(new Peon(ColorPieza.NEGRO, 15));
+        builder.setPieza(new Torre(ColorPieza.BLACK, 0));
+        builder.setPieza(new Caballo(ColorPieza.BLACK, 1));
+        builder.setPieza(new Alfil(ColorPieza.BLACK, 2));
+        builder.setPieza(new Reina(ColorPieza.BLACK, 3));
+        builder.setPieza(new Rey(ColorPieza.BLACK, 4));
+        builder.setPieza(new Alfil(ColorPieza.BLACK, 5));
+        builder.setPieza(new Caballo(ColorPieza.BLACK, 6));
+        builder.setPieza(new Torre(ColorPieza.BLACK, 7));
+        builder.setPieza(new Peon(ColorPieza.BLACK, 8));
+        builder.setPieza(new Peon(ColorPieza.BLACK, 9));
+        builder.setPieza(new Peon(ColorPieza.BLACK, 10));
+        builder.setPieza(new Peon(ColorPieza.BLACK, 11));
+        builder.setPieza(new Peon(ColorPieza.BLACK, 12));
+        builder.setPieza(new Peon(ColorPieza.BLACK, 13));
+        builder.setPieza(new Peon(ColorPieza.BLACK, 14));
+        builder.setPieza(new Peon(ColorPieza.BLACK, 15));
         // White Layout
-        builder.setPieza(new Peon(ColorPieza.BLANCO, 48));
-        builder.setPieza(new Peon(ColorPieza.BLANCO, 49));
-        builder.setPieza(new Peon(ColorPieza.BLANCO, 50));
-        builder.setPieza(new Peon(ColorPieza.BLANCO, 51));
-        builder.setPieza(new Peon(ColorPieza.BLANCO, 52));
-        builder.setPieza(new Peon(ColorPieza.BLANCO, 53));
-        builder.setPieza(new Peon(ColorPieza.BLANCO, 54));
-        builder.setPieza(new Peon(ColorPieza.BLANCO, 55));
-        builder.setPieza(new Torre(ColorPieza.BLANCO, 56));
-        builder.setPieza(new Caballo(ColorPieza.BLANCO, 57));
-        builder.setPieza(new Alfil(ColorPieza.BLANCO, 58));
-        builder.setPieza(new Reina(ColorPieza.BLANCO, 59));
-        builder.setPieza(new Rey(ColorPieza.BLANCO, 60));
-        builder.setPieza(new Alfil(ColorPieza.BLANCO, 61));
-        builder.setPieza(new Caballo(ColorPieza.BLANCO, 62));
-        builder.setPieza(new Torre(ColorPieza.BLANCO, 63));
+        builder.setPieza(new Peon(ColorPieza.WHITE, 48));
+        builder.setPieza(new Peon(ColorPieza.WHITE, 49));
+        builder.setPieza(new Peon(ColorPieza.WHITE, 50));
+        builder.setPieza(new Peon(ColorPieza.WHITE, 51));
+        builder.setPieza(new Peon(ColorPieza.WHITE, 52));
+        builder.setPieza(new Peon(ColorPieza.WHITE, 53));
+        builder.setPieza(new Peon(ColorPieza.WHITE, 54));
+        builder.setPieza(new Peon(ColorPieza.WHITE, 55));
+        builder.setPieza(new Torre(ColorPieza.WHITE, 56));
+        builder.setPieza(new Caballo(ColorPieza.WHITE, 57));
+        builder.setPieza(new Alfil(ColorPieza.WHITE, 58));
+        builder.setPieza(new Reina(ColorPieza.WHITE, 59));
+        builder.setPieza(new Rey(ColorPieza.WHITE, 60));
+        builder.setPieza(new Alfil(ColorPieza.WHITE, 61));
+        builder.setPieza(new Caballo(ColorPieza.WHITE, 62));
+        builder.setPieza(new Torre(ColorPieza.WHITE, 63));
         // white to move
-        builder.setMoveMaker(ColorPieza.BLANCO);
+        builder.setMoveMaker(ColorPieza.WHITE);
         // build the board
         return builder.construirTablero();
     }

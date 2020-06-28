@@ -34,7 +34,7 @@ public class JugadorBlancas extends Jugador {
 
     @Override
     public ColorPieza getColor() {
-        return ColorPieza.BLANCO;
+        return ColorPieza.WHITE;
     }
 
     @Override
