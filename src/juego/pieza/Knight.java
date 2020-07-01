@@ -20,13 +20,14 @@ public class Knight extends Piece {
 
     private final static int[] CANDIDATE_MOVES_VECTOR = { -17, -15, -10, -6, 6, 10, 15, 17 };
 
-    public Knight(PieceColor pieceColor, int piecePosition) {
+    public Knight(final PieceColor pieceColor, final int piecePosition) {
         super(PieceType.KNIGHT, pieceColor, piecePosition, true);
     }
 
-    public Knight(PieceColor pieceColor, int piecePosition, boolean isFirstMove) {
+    public Knight(final PieceColor pieceColor, final int piecePosition, final boolean isFirstMove){
         super(PieceType.KNIGHT, pieceColor, piecePosition, isFirstMove);
     }
+
 
     @Override
     public List<Move> calculateLegalMovements(final Board board) {

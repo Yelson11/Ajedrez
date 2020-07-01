@@ -5,15 +5,15 @@ import juego.tablero.Board;
 
 public class TransitionMove {
 
-    private final Board tableroDeTransacion;
-    private final Move movimiento;
+    private final Board transitionBoard;
+    private final Move move;
     private final Move.MoveStatus statusMovimiento;
 
     public TransitionMove(final Board tableroDeTransacion, final Move movimiento,
             final Move.MoveStatus statusMovimiento) {
 
-        this.tableroDeTransacion = tableroDeTransacion;
-        this.movimiento = movimiento;
+        this.transitionBoard = tableroDeTransacion;
+        this.move = movimiento;
         this.statusMovimiento = statusMovimiento;
 
     }
@@ -22,8 +22,8 @@ public class TransitionMove {
         return this.statusMovimiento;
     }
     
-    public Board getTablero(){
-        return tableroDeTransacion;
+    public Board getTransitionBooard(){
+        return transitionBoard;
     }
 
 }

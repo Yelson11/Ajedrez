@@ -44,16 +44,16 @@ public class Table {
         
     
     private final Color lightTileColor = Color.decode("#e4e7ec");
-    private final Color darkTileColor = Color.decode("#7d8697");
+    private final Color darkTileColor  = Color.decode("#7d8697");
 
     private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
     private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
     private final static Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
-    private static final String defaultPieceImagesPath = "/art/pieces/";
-    private static final String defaultArtImagePath = "/art/";
+    private static final String defaultPieceImagesPath = "src/art/pieces/";
+    private static final String defaultArtImagePath = "src/art/";
     
-    private Tile casillaFuente;
-    private Tile casillaDestino;
+    private Tile sourceTile;
+    private Tile destinationTile;
     private Piece humanMovedPiece;
     
     private BoardDirection boardDirection;
@@ -138,16 +138,49 @@ public class Table {
 
         
         //Repaint
-        private void drawBoard(final Board tablero) {
+        private void drawBoard(final Board board) {
             removeAll();
             for (final TilePanel tilePanel : boardDirection.traverse(boardTiles)){
-                tilePanel.drawTile(tablero);
+                tilePanel.drawTile(board);
                 add(tilePanel);
             }
             validate();
             repaint();
         }
     }
+    
+    public static class MoveLog{
+        private final List<Move> moves;
+        
+        MoveLog(){
+            this.moves = new ArrayList<>();
+        }
+        
+        public List<Move> getMoves(){
+            return this.moves;
+        }
+        
+        public void addMove(final Move move){
+            this.moves.add(move);
+        }
+        
+        public int size(){
+            return this.moves.size();
+        }
+        
+        public void clear(){
+            this.moves.clear();
+        }
+        
+        public Move removeMove(int index){
+            return this.moves.remove(index);
+        }
+        
+        public boolean removeMove(final Move move){
+            return this.moves.remove(move);
+        }
+    }
+    
 
     private class TilePanel extends JPanel {
         private final int tileId;
@@ -161,34 +194,29 @@ public class Table {
             
             addMouseListener(new MouseListener() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    
-                    //cancelar selección de pieza
+                public void mouseClicked(MouseEvent e) {                   
                     if (SwingUtilities.isRightMouseButton(e)){
-                        
-                        casillaFuente = null;
-                        casillaDestino = null;
+                        sourceTile = null;
+                        destinationTile = null;
                         humanMovedPiece = null;
                     }
                     else if (SwingUtilities.isLeftMouseButton(e)){
-                    
-                        //Usuario no ha clickeado pieza
-                        if (casillaFuente == null ){
-                             casillaFuente = board.getTile(tileId);
-                             humanMovedPiece = casillaFuente.getPiece();
+                        if (sourceTile == null ){
+                             sourceTile = board.getTile(tileId);
+                             humanMovedPiece = sourceTile.getPiece();
                              if (humanMovedPiece == null){
-                                 casillaFuente = null;
+                                 sourceTile = null;
                              }
                         } else {
-                            // tiene pieza seleccionada, hacer movimiento
-                            casillaDestino = board.getTile(tileId);
-                            final Move movimiento = Move.FabricaMovimientos.crearMovimiento(board, casillaFuente.getTileCoordinate(), casillaDestino.getTileCoordinate());
-                            final TransitionMove transicion = board.currentPlayer().makeMove(movimiento);
+                            destinationTile = board.getTile(tileId);
+                            final Move move = Move.FabricaMovimientos.crearMovimiento(board, sourceTile.getTileCoordinate(), destinationTile.getTileCoordinate());
+                            final TransitionMove transicion = board.currentPlayer().makeMove(move);
                             if (transicion.getMoveStatus() == Move.MoveStatus.DONE){
-                                board = transicion.getTablero();
+                                board = transicion.getTransitionBooard();
+                                //TODO add the move
                             }
-                            casillaDestino = null;
-                            casillaFuente = null;
+                            destinationTile = null;
+                            sourceTile = null;
                             humanMovedPiece = null;
                        }
                         
@@ -238,9 +266,7 @@ public class Table {
             this.removeAll();
             if (tablero.getTile(this.tileId).tileIsOccupied()){
                 try {
-                    final String imagePath = getClass().getResource(defaultPieceImagesPath+tablero.getTile(this.tileId).getPiece().getPieceColor().toString().substring(0, 1) + 
-                                tablero.getTile(this.tileId).getPiece().toString()+".PNG").getPath();
-                    System.out.println(imagePath);
+                    final String imagePath = defaultPieceImagesPath+tablero.getTile(this.tileId).getPiece().getPieceColor().toString().substring(0, 1) + tablero.getTile(this.tileId).getPiece().toString()+".PNG";
                     final BufferedImage image = ImageIO.read(new File(imagePath));
                     add(new JLabel (new ImageIcon(image)));
                 } catch (IOException ex) {
@@ -251,13 +277,13 @@ public class Table {
         
         private void highLightLegals (final Board board){
             for (final Move move : pieceLegalMoves(board)){
-                if (move.getDestinationCoordinate() == this.tileId){
-                    try {
-                        add (new JLabel (new ImageIcon(ImageIO.read(new File(getClass().getResource(defaultArtImagePath+"other/legals.png").getPath())))));
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if (move.getDestinationCoordinate() == this.tileId){
+                        try {
+                            add (new JLabel (new ImageIcon(ImageIO.read(new File(defaultArtImagePath+"other/legals.png")))));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
             }
         }
         

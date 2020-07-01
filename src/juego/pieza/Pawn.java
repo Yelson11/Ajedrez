@@ -8,6 +8,8 @@ import juego.tablero.Move;
 import juego.tablero.Move.MajorMove;
 import juego.tablero.Board;
 import juego.tablero.BoardUtils;
+import juego.tablero.Move.PawnAttack;
+import juego.tablero.Move.PawnJump;
 
 /**
  *
@@ -24,6 +26,12 @@ public class Pawn extends Piece {
     public Pawn(PieceColor pieceColor, int piecePosition, boolean isFirstMove) {
         super(PieceType.PAWN, pieceColor, piecePosition, isFirstMove);
     }
+    
+    /*
+    @Override
+    public int locationBonus() {
+        return this.pieceColor.pawnBonus(this.piecePosition);
+    }*/
 
     @Override
     public Collection<Move> calculateLegalMovements(final Board board) {
@@ -31,44 +39,43 @@ public class Pawn extends Piece {
         final List<Move> legalMoves = new ArrayList<>();
 
         for (final int currentCandidate : CANDIDATE_MOVES_VECTOR) {
-            final int candidateDestinationCoordinate = this.piecePosition
-                    + (this.getPieceColor().getDirection() * currentCandidate);
+            final int candidateDestinationCoordinate = this.piecePosition + (this.getPieceColor().getDirection() * currentCandidate);
 
             if (!BoardUtils.tileIsValid(candidateDestinationCoordinate)) {
                 continue;
             }
-
+            
             if (currentCandidate == 8 && board.getTile(candidateDestinationCoordinate).tileIsOccupied()) {
+                //ToDo Promotions
                 legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
-            } else if (currentCandidate == 16 && this.isFirstMove()
-                    && (BoardUtils.SEVENTH_RANK[this.piecePosition]) && this.getPieceColor().isBlack()
-                    || (BoardUtils.SECOND_RANK[this.piecePosition]) && this.getPieceColor().isWhite()) {
+            } else if (currentCandidate == 16 && this.isFirstMove() && 
+                    ((BoardUtils.SEVENTH_RANK[this.piecePosition] && this.getPieceColor().isBlack()) || 
+                     (BoardUtils.SECOND_RANK[this.piecePosition] && this.getPieceColor().isWhite()))) {
                 final int behindCandidateDestination = this.piecePosition + (this.pieceColor.getDirection() * 8);
                 if (!board.getTile(behindCandidateDestination).tileIsOccupied()
                         && !board.getTile(candidateDestinationCoordinate).tileIsOccupied()) {
-                    legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                    legalMoves.add(new PawnJump(board, this, candidateDestinationCoordinate));
                 }
-            } else if (currentCandidate == 7 && !(BoardUtils.EIGHT_COLUMN[this.piecePosition]
-                    && this.pieceColor.isWhite()
-                    || BoardUtils.FIRST_COLUMN[this.piecePosition] && this.pieceColor.isBlack())) {
+            } else if (currentCandidate == 7 && 
+                    !((BoardUtils.EIGHT_COLUMN[this.piecePosition] && this.pieceColor.isWhite() || 
+                      (BoardUtils.FIRST_COLUMN[this.piecePosition] && this.pieceColor.isBlack())))) {
                 if (board.getTile(candidateDestinationCoordinate).tileIsOccupied()) {
                     final Piece candidatePiece = board.getTile(candidateDestinationCoordinate).getPiece();
                     if (this.pieceColor != candidatePiece.getPieceColor()) {
-                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                        legalMoves.add(new PawnAttack(board, this, candidateDestinationCoordinate, candidatePiece));
                     }
                 }
 
             } else if (currentCandidate == 9
-                    && !(BoardUtils.FIRST_COLUMN[this.piecePosition] && this.pieceColor.isWhite()
-                            || BoardUtils.EIGHT_COLUMN[this.piecePosition] && this.pieceColor.isBlack())) {
+                    && !((BoardUtils.FIRST_COLUMN[this.piecePosition] && this.pieceColor.isWhite() || 
+                         (BoardUtils.EIGHT_COLUMN[this.piecePosition] && this.pieceColor.isBlack())))) {
                 if (board.getTile(candidateDestinationCoordinate).tileIsOccupied()) {
                     final Piece candidatePiece = board.getTile(candidateDestinationCoordinate).getPiece();
                     if (this.pieceColor != candidatePiece.getPieceColor()) {
-                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                        legalMoves.add(new PawnAttack(board, this, candidateDestinationCoordinate, candidatePiece));
                     }
                 }
             }
-
         }
 
         return ImmutableList.copyOf(legalMoves);

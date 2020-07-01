@@ -15,8 +15,7 @@ public abstract class Piece {
     protected final boolean isFirstMove;
     private final int hashCode;
 
-    Piece(final PieceType pieceType, final PieceColor pieceColor, final int piecePosition,
-            final boolean isFirstMove) {
+    Piece(final PieceType pieceType, final PieceColor pieceColor, final int piecePosition, final boolean isFirstMove) {
         this.piecePosition = piecePosition;
         this.pieceColor = pieceColor;
         this.isFirstMove = isFirstMove;

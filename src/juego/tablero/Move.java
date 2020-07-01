@@ -12,9 +12,10 @@ import juego.tablero.Board.BoardBuilder;
  */
 public abstract class Move 
 {
-    final Board board;
-    final Piece movedPiece;
-    final int destinationCoordinate;
+    protected final Board board;
+    protected final Piece movedPiece;
+    protected final int destinationCoordinate;
+    protected final boolean isFirstMove;
     public static final Move NULL_MOVEMENT = new MovimientoNulo();
     
     private Move(final Board board, final Piece movedPiece, final int destinationCoordinate)
@@ -22,6 +23,14 @@ public abstract class Move
         this.board = board;
         this.movedPiece = movedPiece;
         this.destinationCoordinate = destinationCoordinate;
+        this.isFirstMove = movedPiece.isFirstMove();
+    }
+    
+    private Move(final Board board, final int destinationCoordinate){
+        this.board = board;
+        this.destinationCoordinate = destinationCoordinate;
+        this.movedPiece = null;
+        this.isFirstMove = false;
     }
     
     @Override
@@ -30,6 +39,7 @@ public abstract class Move
         int result = 1;
         result = prime * result + this.destinationCoordinate;
         result = prime * result + this.movedPiece.hashCode();
+        result = prime * result + this.movedPiece.getPiecePosition();
         return result;
     }
     
@@ -42,8 +52,26 @@ public abstract class Move
             return false;
         }
         final Move otherMove = (Move) other;
-        return getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
+        return getCurrentCoordinate() == otherMove.getCurrentCoordinate() &&
+               getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
                getMovedPiece().equals(otherMove.getMovedPiece());
+    }
+    
+    public Board execute() {
+        final BoardBuilder boardBuilder = new BoardBuilder();
+        for (final Piece piece : this.board.currentPlayer().getActivePieces()){
+            if (!this.movedPiece.equals(piece)){
+                boardBuilder.setPiece(piece);
+            }
+        }
+        for (final Piece piece : this.board.currentPlayer().getOponent().getActivePieces()){
+            boardBuilder.setPiece(piece);
+        }
+
+        //mueve la pieza movida
+        boardBuilder.setPiece(this.movedPiece.movePiece(this));
+        boardBuilder.setMoveMaker(this.board.currentPlayer().getOponent().getPiecesColor());
+        return boardBuilder.buildBoard();
     }
     
     public int getCurrentCoordinate(){
@@ -70,32 +98,21 @@ public abstract class Move
         return null;
     }
     
-    public Board execute() {
-            
-        final Board.BoardBuilder boardBuilder = new BoardBuilder();
-
-        for (final Piece pieza : this.board.currentPlayer().getActivePieces()){
-            //TODO hashcode and equals for pieces
-            if (!this.movedPiece.equals(pieza)){
-                boardBuilder.setPiece(pieza);
-            }
-        }
-
-        for (final Piece pieza : this.board.currentPlayer().getOponent().getActivePieces()){
-            boardBuilder.setPiece(pieza);
-        }
-
-        //mueve la pieza movida
-        boardBuilder.setPiece(this.movedPiece.movePiece(this));
-        boardBuilder.setMoveMaker(this.board.currentPlayer().getOponent().getPiecesColor());
-        return boardBuilder.buildBoard();
-    }
-    
     public static final class MajorMove extends Move
     {
         public MajorMove(final Board tablero, final Piece movedPiece, final int destinationCoordinate) {
             super(tablero, movedPiece, destinationCoordinate);
         }   
+        
+        @Override
+        public boolean equals(final Object other){
+            return this == other || other instanceof MajorMove && super.equals(other);
+        }
+        
+        @Override
+        public String toString(){
+            return movedPiece.getPieceType().toString() + BoardUtils.getPositionAt(this.destinationCoordinate);
+        }
     }
     
     public static class AtackMove extends Move
@@ -140,30 +157,30 @@ public abstract class Move
         }
     }
     
-    public static final class MovimientoPeon extends Move
+    public static final class PawnMove extends Move
     {
-        public MovimientoPeon(final Board tablero, final Piece movedPiece, final int destinationCoordinate) {
+        public PawnMove(final Board tablero, final Piece movedPiece, final int destinationCoordinate) {
             super(tablero, movedPiece, destinationCoordinate);
         }   
     }
     
-    public static class MovimientoAtaquePeon extends AtackMove
+    public static class PawnAttack extends AtackMove
     {
-        public MovimientoAtaquePeon(final Board tablero, final Piece movedPiece, final int destinationCoordinate, final Piece piezaAtacada) {
+        public PawnAttack(final Board tablero, final Piece movedPiece, final int destinationCoordinate, final Piece piezaAtacada) {
             super(tablero, movedPiece, destinationCoordinate, piezaAtacada);
         }   
     }
     
-    public static final class MovimientoAtaquePeonPasajero extends AtackMove
+    public static final class PawnAttackPassenger extends AtackMove
     {
-        public MovimientoAtaquePeonPasajero(final Board tablero, final Piece movedPiece, final int destinationCoordinate, final Piece piezaAtacada) {
+        public PawnAttackPassenger(final Board tablero, final Piece movedPiece, final int destinationCoordinate, final Piece piezaAtacada) {
             super(tablero, movedPiece, destinationCoordinate, piezaAtacada);
         }   
     }
     
-    public static class SaltoPeon extends Move
+    public static class PawnJump extends Move
     {
-        public SaltoPeon(final Board tablero, final Piece movedPiece, final int destinationCoordinate) {
+        public PawnJump(final Board tablero, final Piece movedPiece, final int destinationCoordinate) {
             super(tablero, movedPiece, destinationCoordinate);
         }
         
