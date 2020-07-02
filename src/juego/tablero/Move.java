@@ -482,7 +482,7 @@ public abstract class Move
             }
         };
 
-        abstract boolean isDone();
+        public abstract boolean isDone();
     }
     
 }
