@@ -68,7 +68,7 @@ public class Bishop extends Piece {
     }
 
     public String toString() {
-        return PieceType.BISHOP.toString(this.pieceColor);
+        return PieceType.BISHOP.toString();
     }
 
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffSet) {

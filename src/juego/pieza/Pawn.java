@@ -82,7 +82,7 @@ public class Pawn extends Piece {
     }
 
     public String toString() {
-        return PieceType.PAWN.toString(this.pieceColor);
+        return PieceType.PAWN.toString();
     }
     
     public Pawn movePiece(final Move movimiento) {

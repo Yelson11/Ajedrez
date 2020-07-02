@@ -39,9 +39,14 @@ import juego.tablero.BoardUtils;
 public class Table {
 
     private final JFrame gameFrame;
+    private final GameHistoryPanel gameHistoryPanel;
+    private final TakenPiecesPanel takenPiecesPanel;
     private final BoardPanel boardPanel;
     private Board board;
-        
+    
+    private Tile sourceTile;
+    private Tile destinationTile;
+    private Piece humanMovedPiece;
     
     private final Color lightTileColor = Color.decode("#e4e7ec");
     private final Color darkTileColor  = Color.decode("#7d8697");
@@ -52,12 +57,7 @@ public class Table {
     private static final String defaultPieceImagesPath = "src/art/pieces/";
     private static final String defaultArtImagePath = "src/art/";
     
-    private Tile sourceTile;
-    private Tile destinationTile;
-    private Piece humanMovedPiece;
-    
-    private BoardDirection boardDirection;
-    
+    private BoardDirection boardDirection;    
     
     public Table() {
         this.gameFrame = new JFrame("Chess");
@@ -66,9 +66,13 @@ public class Table {
         this.gameFrame.setJMenuBar(tableMenuBar);
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
         this.board = Board.createStandardBoard();
+        this.gameHistoryPanel = new GameHistoryPanel();
+        this.takenPiecesPanel = new TakenPiecesPanel();
         this.boardPanel = new BoardPanel();
         this.boardDirection = BoardDirection.NORMAL;
+        this.gameFrame.add(this.takenPiecesPanel, BorderLayout.WEST);
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
+        this.gameFrame.add(this.gameHistoryPanel, BorderLayout.EAST);
         this.gameFrame.setVisible(true);
     }
 

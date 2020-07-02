@@ -66,7 +66,7 @@ public class Rook extends Piece {
     }
 
     public String toString() {
-        return PieceType.ROOK.toString(this.pieceColor);
+        return PieceType.ROOK.toString();
     }
 
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffSet) {

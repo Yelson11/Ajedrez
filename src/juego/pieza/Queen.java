@@ -66,7 +66,7 @@ public class Queen extends Piece {
     }
 
     public String toString() {
-        return PieceType.QUEEN.toString(this.pieceColor);
+        return PieceType.QUEEN.toString();
     }
 
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffSet) {

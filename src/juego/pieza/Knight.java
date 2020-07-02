@@ -65,7 +65,7 @@ public class Knight extends Piece {
     }
 
     public String toString() {
-        return PieceType.KNIGHT.toString(this.pieceColor);
+        return PieceType.KNIGHT.toString();
     }
 
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffSet) {

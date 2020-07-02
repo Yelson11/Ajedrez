@@ -64,13 +64,28 @@ public abstract class Piece {
     public boolean isFirstMove() {
         return this.isFirstMove;
     }
+    
+    public int getPieceValue(){
+        return this.pieceType.getPieceValue();
+    }
 
     public abstract Collection<Move> calculateLegalMovements(final Board tablero);
     
     public abstract Piece movePiece(Move movimiento);
 
     public enum PieceType {
-        BISHOP("B"){ //BISOHP
+        PAWN("P",100){ //PAWN
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+
+            @Override
+            public boolean isRook() {
+                return false;
+            }
+        },
+        BISHOP("B", 300){ //BISOHP
             @Override
             public boolean isKing() {
                 return false;
@@ -82,7 +97,7 @@ public abstract class Piece {
             }
             
         }, 
-        KING("K"){ //KING
+        KING("K", 10000){ //KING
             @Override
             public boolean isKing() {
                 return true;
@@ -93,7 +108,7 @@ public abstract class Piece {
                 return false;
             }
         }, 
-        KNIGHT("N"){  //kNight
+        KNIGHT("N", 300){  //kNight
             @Override
             public boolean isKing() {
                 return false;
@@ -104,7 +119,7 @@ public abstract class Piece {
                 return false;
             }
         }, 
-        QUEEN("Q"){ //QUEEN
+        QUEEN("Q", 900){ //QUEEN
             @Override
             public boolean isKing() {
                 return false;
@@ -115,7 +130,7 @@ public abstract class Piece {
                 return false;
             }
         }, 
-        ROOK("R"){ //ROOK
+        ROOK("R", 500){ //ROOK
             @Override
             public boolean isKing() {
                 return false;
@@ -124,30 +139,25 @@ public abstract class Piece {
             @Override
             public boolean isRook() {
                 return true;
-            }
-        }, 
-        PAWN("P"){ //PAWN
-            @Override
-            public boolean isKing() {
-                return false;
-            }
-
-            @Override
-            public boolean isRook() {
-                return false;
             }
         };
 
         private String pieceName;
+        private int pieceValue;
+        
+        PieceType(final String pieceName, final int pieceValue) {
+            this.pieceName = pieceName;
+            this.pieceValue = pieceValue;
+        }
 
-        public String toString(PieceColor color) {
+        @Override
+        public String toString() {
             return this.pieceName;
         }
-
-        PieceType(final String pieceName) {
-            this.pieceName = pieceName;
-        }
         
+        public int getPieceValue(){
+            return this.pieceValue;
+        }
         public abstract boolean isKing();
         public abstract boolean isRook();
         

@@ -62,7 +62,7 @@ public class King extends Piece {
     }
 
     public String toString() {
-        return PieceType.KING.toString(this.pieceColor);
+        return PieceType.KING.toString();
     }
 
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffSet) {
