@@ -463,21 +463,21 @@ public abstract class Move
     
         DONE {
             @Override
-            boolean isDone() {
+            public boolean isDone() {
                 return true;
             }
         },
         ILLEGAL {
 
             @Override
-            boolean isDone() {
+            public boolean isDone() {
                 return false;
             }
 
         },
         LEAVES_PLAYER_IN_CHECK {
             @Override
-            boolean isDone() {
+            public boolean isDone() {
                 return false;
             }
         };

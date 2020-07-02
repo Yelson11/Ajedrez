@@ -18,7 +18,7 @@ public class MiniMax implements MoveStrategy{
     private final BoardEvaluator boardEvaluator;
     
     public MiniMax(){
-        this.boardEvaluator = null;
+        this.boardEvaluator = new StandardBoardEvaluator();
     }
     
     @Override
@@ -28,8 +28,35 @@ public class MiniMax implements MoveStrategy{
 
     @Override
     public Move execute(Board board, int depth) {
+        final long startTime = System.currentTimeMillis();
         
-        return null;
+        Move bestMove = null;
+        
+        int highestSeenValue = Integer.MIN_VALUE;
+        int lowestSeenValue = Integer.MAX_VALUE;
+        int currentValue;
+        
+        System.out.println(board.currentPlayer() + "Analizando con profundidad de " + depth);
+        
+        int numMoves = board.currentPlayer().getLegalMovements().size();
+        
+        for(final Move move : board.currentPlayer().getLegalMovements()){
+            final TransitionMove moveTransition = board.currentPlayer().makeMove(move);
+            if(moveTransition.getMoveStatus().isDone()){
+                currentValue = board.currentPlayer().getPiecesColor().isWhite()?
+                    min(moveTransition.getTransitionBooard(), depth - 1) :
+                    max(moveTransition.getTransitionBooard(), depth - 1);
+                if(board.currentPlayer().getPiecesColor().isWhite() && currentValue >= highestSeenValue){
+                    highestSeenValue = currentValue;
+                    bestMove = move;
+                }else if(board.currentPlayer().getPiecesColor().isBlack() && currentValue <= lowestSeenValue){
+                    lowestSeenValue = currentValue;
+                    bestMove = move;
+                }
+            }
+        }
+        final long executionTime = System.currentTimeMillis() - startTime;
+        return bestMove;
     }
     
     public int min(final Board board, final int depth){
@@ -59,7 +86,7 @@ public class MiniMax implements MoveStrategy{
         for(final Move move : board.currentPlayer().getLegalMovements()){
             final TransitionMove moveTransition = board.currentPlayer().makeMove(move);
             if(moveTransition.getMoveStatus().isDone()){
-                final int currentValue = max(moveTransition.getTransitionBooard(), depth - 1);
+                final int currentValue = min(moveTransition.getTransitionBooard(), depth - 1);
                 if(currentValue >= highestSeenValue){
                     highestSeenValue = currentValue;
                 }
