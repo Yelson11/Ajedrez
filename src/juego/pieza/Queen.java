@@ -8,6 +8,7 @@ import juego.tablero.Tile;
 import juego.tablero.Move;
 import juego.tablero.Board;
 import juego.tablero.BoardUtils;
+import juego.tablero.Move.MajorAttackMove;
 
 /**
  *
@@ -52,8 +53,7 @@ public class Queen extends Piece {
                         final PieceColor pieceColor = destinationPiece.getPieceColor();
 
                         if (this.pieceColor != pieceColor) {
-                            legalMoves.add(new Move.AtackMove(board, this,
-                                    candidateDestinationCoordinate, destinationPiece));
+                            legalMoves.add(new MajorAttackMove(board, this,candidateDestinationCoordinate, destinationPiece));
                         }
                     }
                     break;

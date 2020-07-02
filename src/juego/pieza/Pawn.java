@@ -9,7 +9,10 @@ import juego.tablero.Move.MajorMove;
 import juego.tablero.Board;
 import juego.tablero.BoardUtils;
 import juego.tablero.Move.PawnAttackMove;
+import juego.tablero.Move.PawnEnPassantAttackMove;
 import juego.tablero.Move.PawnJump;
+import juego.tablero.Move.PawnMove;
+import juego.tablero.Move.PawnPromotion;
 
 /**
  *
@@ -46,8 +49,12 @@ public class Pawn extends Piece {
             }
             
             if (currentCandidate == 8 && board.getTile(candidateDestinationCoordinate).tileIsOccupied()) {
-                //ToDo Promotions
-                legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                
+                if(this.pieceColor.isPawnPromotionSquare(candidateDestinationCoordinate)){
+                    legalMoves.add(new PawnPromotion(new PawnMove(board, this, candidateDestinationCoordinate)));
+                }else{
+                    legalMoves.add(new PawnMove(board, this, candidateDestinationCoordinate));
+                }
             } else if (currentCandidate == 16 && this.isFirstMove() && 
                     ((BoardUtils.SEVENTH_RANK[this.piecePosition] && this.getPieceColor().isBlack()) || 
                      (BoardUtils.SECOND_RANK[this.piecePosition] && this.getPieceColor().isWhite()))) {
@@ -62,7 +69,18 @@ public class Pawn extends Piece {
                 if (board.getTile(candidateDestinationCoordinate).tileIsOccupied()) {
                     final Piece candidatePiece = board.getTile(candidateDestinationCoordinate).getPiece();
                     if (this.pieceColor != candidatePiece.getPieceColor()) {
-                        legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoordinate, candidatePiece));
+                        if(this.pieceColor.isPawnPromotionSquare(candidateDestinationCoordinate)){
+                            legalMoves.add(new PawnPromotion(new PawnAttackMove(board, this, candidateDestinationCoordinate, candidatePiece)));
+                        }else{
+                            legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoordinate, candidatePiece));
+                        }
+                    }
+                } else if(board.getEnPassantPawn() != null){
+                    if(board.getEnPassantPawn().getPiecePosition() == this.piecePosition + (this.pieceColor.getOppositeDirection())){
+                        final Piece pieceOnCandidate = board.getEnPassantPawn();
+                        if(this.pieceColor != pieceOnCandidate.getPieceColor()){
+                            legalMoves.add(new Move.PawnEnPassantAttackMove(board, this , candidateDestinationCoordinate, pieceOnCandidate));
+                        }
                     }
                 }
 
@@ -74,19 +92,37 @@ public class Pawn extends Piece {
                     if (this.pieceColor != candidatePiece.getPieceColor()) {
                         legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoordinate, candidatePiece));
                     }
+                } else if(board.getEnPassantPawn() != null){
+                    if(board.getEnPassantPawn().getPiecePosition() == this.piecePosition - (this.pieceColor.getOppositeDirection())){
+                        final Piece pieceOnCandidate = board.getEnPassantPawn();
+                        if(this.pieceColor != pieceOnCandidate.getPieceColor()){
+                            if(this.pieceColor.isPawnPromotionSquare(candidateDestinationCoordinate)){
+                                legalMoves.add(new PawnPromotion(new PawnEnPassantAttackMove(board, this , candidateDestinationCoordinate, pieceOnCandidate)));
+                            }else{
+                                legalMoves.add(new PawnEnPassantAttackMove(board, this , candidateDestinationCoordinate, pieceOnCandidate));
+                            }
+                        }
+                    }
                 }
             }
         }
 
         return ImmutableList.copyOf(legalMoves);
     }
-
+    
+    
+   @Override
     public String toString() {
         return PieceType.PAWN.toString();
     }
     
+    @Override
     public Pawn movePiece(final Move movimiento) {
         return new Pawn(movimiento.getMovedPiece().getPieceColor(), movimiento.getDestinationCoordinate());
+    }
+    
+    public Piece getPromotionPiece(){
+        return new Queen(this.pieceColor, this.piecePosition, false);
     }
 
 }

@@ -10,6 +10,7 @@ import juego.tablero.Move.AtackMove;
 import juego.tablero.Move.MajorMove;
 import juego.tablero.Board;
 import juego.tablero.BoardUtils;
+import juego.tablero.Move.MajorAttackMove;
 
 /**
  *
@@ -55,7 +56,7 @@ public class Bishop extends Piece {
 
                         if (this.pieceColor != pieceColor) {
                             legalMoves
-                                    .add(new AtackMove(board, this, candidateDestinationCoordinate, destinationPiece));
+                                    .add(new MajorAttackMove(board, this, candidateDestinationCoordinate, destinationPiece));
                         }
                     }
                     break;

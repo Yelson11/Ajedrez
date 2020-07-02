@@ -33,12 +33,15 @@ public class Board {
     private final WhitesPlayer whitesPlayer;
     private final BlacksPlayer blacksPlayer;
     private final Player currentPlayer;
+    
+    private final Pawn enPassantPawn;
 
     private Board(BoardBuilder builder) {
 
         this.chessBoard = createChessBoard(builder);
         this.whitePieces = calculateActivePieces(this.chessBoard, PieceColor.WHITE);
         this.blackPieces = calculateActivePieces(this.chessBoard, PieceColor.BLACK);
+        this.enPassantPawn = builder.peonPasajero;
 
         final Collection<Move> movimientosPermitidosBlancas = calculateLegalMoves(this.whitePieces);
         final Collection<Move> movimientosPermitidosNegras = calculateLegalMoves(this.blackPieces);
@@ -46,8 +49,12 @@ public class Board {
         this.whitesPlayer = new WhitesPlayer(this, movimientosPermitidosBlancas, movimientosPermitidosNegras);
         this.blacksPlayer = new BlacksPlayer(this, movimientosPermitidosBlancas, movimientosPermitidosNegras);
 
-        this.currentPlayer = builder.nextMoveMaker.escogerJugador (this.whitesPlayer, this.blacksPlayer);
+        this.currentPlayer = builder.nextMoveMaker.choosePlayer (this.whitesPlayer, this.blacksPlayer);
 
+    }
+
+    public Pawn getEnPassantPawn() {
+        return enPassantPawn;
     }
 
     public Player currentPlayer(){

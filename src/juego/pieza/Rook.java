@@ -8,6 +8,7 @@ import juego.tablero.Tile;
 import juego.tablero.Move;
 import juego.tablero.Board;
 import juego.tablero.BoardUtils;
+import juego.tablero.Move.MajorAttackMove;
 
 /**
  *
@@ -52,8 +53,7 @@ public class Rook extends Piece {
                         final PieceColor pieceColor = destinationPiece.getPieceColor();
 
                         if (this.pieceColor != pieceColor) {
-                            legalMoves.add(new Move.AtackMove(tablero, this,
-                                    candidateDestinationCoordinate, destinationPiece));
+                            legalMoves.add(new MajorAttackMove(tablero, this, candidateDestinationCoordinate, destinationPiece));
                         }
                     }
                     break;

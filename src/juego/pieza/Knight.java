@@ -11,6 +11,7 @@ import juego.tablero.Move.MajorMove;
 import juego.tablero.Board;
 import juego.tablero.BoardUtils;
 import static juego.tablero.BoardUtils.tileIsValid;
+import juego.tablero.Move.MajorAttackMove;
 
 /**
  *
@@ -54,7 +55,7 @@ public class Knight extends Piece {
                     final PieceColor pieceColor = destianationPiece.getPieceColor();
 
                     if (this.pieceColor != pieceColor) {
-                        legalMoves.add(new AtackMove(board, this, destinationCandidate, destianationPiece));
+                        legalMoves.add(new MajorAttackMove(board, this, destinationCandidate, destianationPiece));
                     }
                 }
             }

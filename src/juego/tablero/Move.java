@@ -2,6 +2,7 @@ package juego.tablero;
 
 import juego.pieza.Pawn;
 import juego.pieza.Piece;
+import juego.pieza.PieceColor;
 import juego.pieza.Rook;
 import juego.tablero.Board.BoardBuilder;
 
@@ -11,6 +12,8 @@ import juego.tablero.Board.BoardBuilder;
  */
 public abstract class Move 
 {
+
+
     protected final Board board;
     protected final Piece movedPiece;
     protected final int destinationCoordinate;
@@ -30,6 +33,10 @@ public abstract class Move
         this.destinationCoordinate = destinationCoordinate;
         this.movedPiece = null;
         this.isFirstMove = false;
+    }
+    
+    public Board getBoard() {
+        return board;
     }
     
     @Override
@@ -97,15 +104,15 @@ public abstract class Move
         return null;
     }
     
-    public static class MajorAttachMove extends AtackMove{
+    public static class MajorAttackMove extends AtackMove{
         
-        public MajorAttachMove(Board board, Piece pieceMoved, int destinationCoordinate, Piece attackedPiece) {
+        public MajorAttackMove(Board board, Piece pieceMoved, int destinationCoordinate, Piece attackedPiece) {
             super(board, pieceMoved, destinationCoordinate, attackedPiece);
         }
         
         @Override
         public boolean equals(final Object other){
-            return this == other || other instanceof MajorAttachMove && super.equals(other);
+            return this == other || other instanceof MajorAttackMove && super.equals(other);
         }
         
         @Override
@@ -246,6 +253,59 @@ public abstract class Move
         
         
         
+    }
+    
+    public static class PawnPromotion extends Move{
+        final Move decoratedMove;
+        final Pawn promotedPawn;
+        
+        public PawnPromotion(final Move decoratedMove) {
+            super(decoratedMove.getBoard(), decoratedMove.getMovedPiece(), decoratedMove.getDestinationCoordinate());
+            this.decoratedMove = decoratedMove;
+            this.promotedPawn = (Pawn) decoratedMove.getMovedPiece();
+        }
+        
+        @Override
+        public int hashCode(){
+            return this.decoratedMove.hashCode() + (31 * promotedPawn.hashCode());
+        }
+        
+        @Override
+        public boolean equals(final Object other){
+            return this == other || other instanceof PawnPromotion && (super.equals(other));
+        }
+        
+        @Override
+        public Board execute(){
+            final Board pawnMovedBoard = this.decoratedMove.execute();
+            final Board.BoardBuilder builder = new BoardBuilder();
+            for(final Piece piece : pawnMovedBoard.currentPlayer().getActivePieces()){
+                if(!this.promotedPawn.equals(piece)){
+                    builder.setPiece(piece);
+                }
+            }
+            for(final Piece piece : pawnMovedBoard.currentPlayer().getOponent().getActivePieces()){
+                builder.setPiece(piece);
+            }
+            builder.setPiece(this.promotedPawn.getPromotionPiece().movePiece(this));
+            builder.setMoveMaker(pawnMovedBoard.currentPlayer().getPiecesColor());
+            return builder.buildBoard();
+        }
+         
+        @Override
+        public boolean isAtack(){
+            return this.decoratedMove.isAtack();
+        }
+        
+        @Override
+        public Piece getAttackedPiece(){
+            return this.decoratedMove.getAttackedPiece();
+        }
+        
+        @Override
+        public String toString(){
+            return "";
+        }
     }
     
     public static class PawnJump extends Move
