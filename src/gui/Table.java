@@ -42,7 +42,8 @@ public class Table {
     private final GameHistoryPanel gameHistoryPanel;
     private final TakenPiecesPanel takenPiecesPanel;
     private final BoardPanel boardPanel;
-    private Board board;
+    private Board chessBoard;
+    final MoveLog moveLog;
     
     private Tile sourceTile;
     private Tile destinationTile;
@@ -65,10 +66,11 @@ public class Table {
         final JMenuBar tableMenuBar = createTableMenuBar();
         this.gameFrame.setJMenuBar(tableMenuBar);
         this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
-        this.board = Board.createStandardBoard();
+        this.chessBoard = Board.createStandardBoard();
         this.gameHistoryPanel = new GameHistoryPanel();
         this.takenPiecesPanel = new TakenPiecesPanel();
         this.boardPanel = new BoardPanel();
+        this.moveLog = new MoveLog();
         this.boardDirection = BoardDirection.NORMAL;
         this.gameFrame.add(this.takenPiecesPanel, BorderLayout.WEST);
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
@@ -116,7 +118,7 @@ public class Table {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boardDirection = boardDirection.opposite();
-                boardPanel.drawBoard(board);
+                boardPanel.drawBoard(chessBoard);
             }
         });
         preferecesMenu.add(flipboardMenuItem);
@@ -194,7 +196,7 @@ public class Table {
             this.tileId = tileId;
             setPreferredSize(TILE_PANEL_DIMENSION);
             assignTileColor();
-            assignTilePieceIcon(board);
+            assignTilePieceIcon(chessBoard);
             
             addMouseListener(new MouseListener() {
                 @Override
@@ -206,17 +208,18 @@ public class Table {
                     }
                     else if (SwingUtilities.isLeftMouseButton(e)){
                         if (sourceTile == null ){
-                             sourceTile = board.getTile(tileId);
+                             sourceTile = chessBoard.getTile(tileId);
                              humanMovedPiece = sourceTile.getPiece();
                              if (humanMovedPiece == null){
                                  sourceTile = null;
                              }
                         } else {
-                            destinationTile = board.getTile(tileId);
-                            final Move move = Move.FabricaMovimientos.crearMovimiento(board, sourceTile.getTileCoordinate(), destinationTile.getTileCoordinate());
-                            final TransitionMove transicion = board.currentPlayer().makeMove(move);
+                            destinationTile = chessBoard.getTile(tileId);
+                            final Move move = Move.FabricaMovimientos.crearMovimiento(chessBoard, sourceTile.getTileCoordinate(), destinationTile.getTileCoordinate());
+                            final TransitionMove transicion = chessBoard.currentPlayer().makeMove(move);
                             if (transicion.getMoveStatus() == Move.MoveStatus.DONE){
-                                board = transicion.getTransitionBooard();
+                                chessBoard = transicion.getTransitionBooard();
+                                moveLog.addMove(move);
                                 //TODO add the move
                             }
                             destinationTile = null;
@@ -227,7 +230,9 @@ public class Table {
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
-                                boardPanel.drawBoard(board);
+                                gameHistoryPanel.redo(chessBoard, moveLog);
+                                takenPiecesPanel.redo(moveLog);
+                                boardPanel.drawBoard(chessBoard);
                             }
                         });
                     }
@@ -261,7 +266,7 @@ public class Table {
         public void drawTile (final Board tablero){
             assignTileColor();
             assignTilePieceIcon(tablero);
-            highLightLegals(board);
+            highLightLegals(chessBoard);
             validate();
             repaint();
         }

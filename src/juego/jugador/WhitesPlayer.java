@@ -56,7 +56,7 @@ public class WhitesPlayer extends Player {
                     if(Player.calculateAttackMovesInTile(61, oponentesLegales).isEmpty() &&
                        Player.calculateAttackMovesInTile(62, oponentesLegales).isEmpty() &&
                        torreCasilla.getPiece().getPieceType().isRook()){
-                        reyCastles.add(new Move.MovimientoCastilloLadoRey(this.board, this.playerKing, 62, (Rook)torreCasilla.getPiece(), torreCasilla.getTileCoordinate(),61));
+                        reyCastles.add(new Move.KingSideCastleMove(this.board, this.playerKing, 62, (Rook)torreCasilla.getPiece(), torreCasilla.getTileCoordinate(),61));
                     }
                 }
             }
@@ -69,7 +69,7 @@ public class WhitesPlayer extends Player {
                     Player.calculateAttackMovesInTile(58, oponentesLegales).isEmpty() && 
                     Player.calculateAttackMovesInTile(59, oponentesLegales).isEmpty()  &&
                     torreCasilla.getPiece().getPieceType().isRook()){
-                    reyCastles.add(new Move.MovimientoCastilloLadoReina(this.board, this.playerKing, 58, (Rook)torreCasilla.getPiece(), torreCasilla.getTileCoordinate(), 59));
+                    reyCastles.add(new Move.QueenSideCastleMove(this.board, this.playerKing, 58, (Rook)torreCasilla.getPiece(), torreCasilla.getTileCoordinate(), 59));
                 }
             }
         }

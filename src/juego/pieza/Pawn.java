@@ -8,7 +8,7 @@ import juego.tablero.Move;
 import juego.tablero.Move.MajorMove;
 import juego.tablero.Board;
 import juego.tablero.BoardUtils;
-import juego.tablero.Move.PawnAttack;
+import juego.tablero.Move.PawnAttackMove;
 import juego.tablero.Move.PawnJump;
 
 /**
@@ -62,7 +62,7 @@ public class Pawn extends Piece {
                 if (board.getTile(candidateDestinationCoordinate).tileIsOccupied()) {
                     final Piece candidatePiece = board.getTile(candidateDestinationCoordinate).getPiece();
                     if (this.pieceColor != candidatePiece.getPieceColor()) {
-                        legalMoves.add(new PawnAttack(board, this, candidateDestinationCoordinate, candidatePiece));
+                        legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoordinate, candidatePiece));
                     }
                 }
 
@@ -72,7 +72,7 @@ public class Pawn extends Piece {
                 if (board.getTile(candidateDestinationCoordinate).tileIsOccupied()) {
                     final Piece candidatePiece = board.getTile(candidateDestinationCoordinate).getPiece();
                     if (this.pieceColor != candidatePiece.getPieceColor()) {
-                        legalMoves.add(new PawnAttack(board, this, candidateDestinationCoordinate, candidatePiece));
+                        legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoordinate, candidatePiece));
                     }
                 }
             }
